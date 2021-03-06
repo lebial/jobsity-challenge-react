@@ -9,12 +9,18 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "autoprefixer": "^9.8.6",
+    "framer-motion": "^3.10.0",
     "moment": "^2.29.1",
     "postcss": "^7.0.35",
+    "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
     "react-scripts": "4.0.3",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
     "styled-components": "^5.2.1",
+    "tailwind-scrollbar": "^1.0.2",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3",
     "web-vitals": "^1.0.1"
   },
@@ -33,12 +39,25 @@
       "airbnb",
       "plugin:jsx-a11y/recommended"
     ],
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "paths": [
+            "src"
+          ]
+        }
+      }
+    },
     "plugins": [
       "jsx-a11y",
       "prettier"
     ],
     "rules": {
-      "linebreak-style": ["error", "windows"],
+      "linebreak-style": [
+        "error",
+        "windows"
+      ],
+      "no-debugger": "warn",
       "react/jsx-filename-extension": [
         1,
         {
