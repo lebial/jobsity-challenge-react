@@ -5,10 +5,10 @@ import Calendar from './views/Calendar';
 
 function Remainders() {
   return (
-    <main className="w-screen h-screen">
+    <div className="w-full h-full">
       <MonthSelector />
       <Calendar />
-    </main>
+    </div>
   );
 }
 

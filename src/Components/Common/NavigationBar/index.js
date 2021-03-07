@@ -14,7 +14,7 @@ function NavigationBar() {
         h-16
       `}
     >
-      <span>Remainders App</span>
+      <span>Reminders App</span>
     </nav>
   );
 }

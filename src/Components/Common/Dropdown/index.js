@@ -58,7 +58,7 @@ function Dropdown({ options, onChange, defaultOption }) {
           -translate-x-1/2 w-max
           max-h-48 overflow-y-scroll
           scrollbar-thin
-          bg-white
+          bg-white z-50
           scrollbar-thumb-indigo-700 scrollbar-track-gray-200
         `}
         data-testid="dropdownBody"
