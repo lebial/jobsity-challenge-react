@@ -31,12 +31,21 @@ const CalendarContainer = styled.div`
     grid-template-columns: repeat(7, 1fr);
     grid-auto-rows: 1fr;
   }
-  @media(max-width: ${screens.sm}) {
+  
+  @media(max-width: ${screens.lg}) {
     & .cal__body__header {
       display: none;
     }
     & .cal__body__content {
       height: auto;
+      grid-template-columns: repeat(3, 1fr);
+      background-color: white;
+      grid-gap: 10px;
+    }
+  }
+
+  @media(max-width: ${screens.sm}) {
+    & .cal__body__content {
       grid-template-columns: repeat(2, 1fr);
     }
   }

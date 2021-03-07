@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import CalendarBodyContainer from './styles';
+import CalendarCell from '../CalendarCell';
 
 function CalendarBody({ daysInMonth }) {
-  const renderCells = () => daysInMonth.map((day) => (<div className="cal__body__cell bg-white">{day.day}</div>));
+  const renderCells = () => daysInMonth.map((day) => (<CalendarCell day={day} />));
 
   return (
     <CalendarBodyContainer>
