@@ -13,5 +13,8 @@
       -ms-overflow-style: none;  /* IE and Edge */
       scrollbar-width: none;  /* Firefox */
     }
+    .h-vh80 {
+      height: 80vh;
+    }
   }
 }
