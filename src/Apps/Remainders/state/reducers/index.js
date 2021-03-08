@@ -7,8 +7,10 @@ import {
 import { CHANGE_CURRENT_MONTH, GET_INITIAL_DATA } from '../actions/calendarActions';
 
 function getNewMonth(state, newDate) {
+  // If the month that we try to access already exists, will not recreate it
   const existingMonth = (state.visitedMonths || {})[`${newDate.month}-${newDate.year}`];
   if (existingMonth) return { selectedMonth: existingMonth };
+  // otherwise will track a new month
   const { month, monthIndex, year } = createDateData(new Date(newDate.year, newDate.monthIndex));
   const daysInMonth = getDaysInMonth(monthIndex, year);
   const selectedMonth = {

@@ -1,14 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+
+import { toggleModal } from '../../../state/actions/modalActions';
 
 // import { Tag } from 'Components/Common';
 import CalendarCellContainer from './styles';
 
 function CalendarCell({ day }) {
+  const dispatch = useDispatch();
+  const openModal = () => dispatch(toggleModal(true));
   return (
     <CalendarCellContainer
       isWeekend={day.isWeekend()}
       notFromCurrentMonth={day.notFromCurrentMonth}
+      onClick={openModal}
     >
       <div className="cell__header">
         { day.day }
