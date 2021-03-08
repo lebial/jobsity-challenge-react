@@ -4,11 +4,13 @@ import PropTypes from 'prop-types';
 import CalendarBodyContainer from './styles';
 import CalendarCell from '../CalendarCell';
 
-function CalendarBody({ daysInMonth }) {
-  const renderCells = () => daysInMonth.map((day) => (<CalendarCell day={day} />));
+function CalendarBody({ daysInMonth, currentMonthIndex }) {
+  const renderCells = () => daysInMonth.map((day) => (
+    <CalendarCell day={day} currentMonthIndex={currentMonthIndex} />
+  ));
 
   return (
-    <CalendarBodyContainer>
+    <CalendarBodyContainer className=" lg:overflow-y-scroll lg:scrollbar-thin scrollbar-thumb-indigo-700 scrollbar-track-gray-200">
       <div className="cal__body__header">
         <div className="header__item">
           Sunday
@@ -20,7 +22,7 @@ function CalendarBody({ daysInMonth }) {
           Tuesday
         </div>
         <div className="header__item">
-          Wendsday
+          Wednesday
         </div>
         <div className="header__item">
           Thursday
@@ -43,4 +45,5 @@ export default CalendarBody;
 
 CalendarBody.propTypes = {
   daysInMonth: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currentMonthIndex: PropTypes.number.isRequired,
 };

@@ -6,7 +6,9 @@ const CalendarCellContainer = styled.div`
   width: 100%;
   height: 100%;
   max-height: 110px;
-  background-color: white;
+  min-height: 110px;
+  background-color: ${(props) => props.isWeekend ? 'lightgray' : 'white'};
+  font-weight: ${(props) => props.notFromCurrentMonth ? 'normal' : 'bold'};
   transition: all ease .3s;
   position: relative;
   display: flex;
@@ -38,7 +40,7 @@ const CalendarCellContainer = styled.div`
     }
     & .cell__header {
       color: #666;
-      background-color: white;
+      background-color: transparent;
       &__weekday {
         visibility: hidden;
       }

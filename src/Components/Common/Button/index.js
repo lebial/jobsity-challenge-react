@@ -10,6 +10,7 @@ function Button(props) {
     onClick,
     text,
     classNames,
+    name,
   } = props;
   return (
     <StyledButton
@@ -17,6 +18,7 @@ function Button(props) {
       danger={danger}
       onClick={onClick}
       className={classNames}
+      name={name}
     >
       { text }
     </StyledButton>
@@ -30,6 +32,7 @@ Button.defaultProps = {
   danger: false,
   text: '',
   classNames: '',
+  name: '',
 };
 
 Button.propTypes = {
@@ -37,5 +40,6 @@ Button.propTypes = {
   danger: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
   text: PropTypes.string,
+  name: PropTypes.string,
   classNames: PropTypes.string,
 };

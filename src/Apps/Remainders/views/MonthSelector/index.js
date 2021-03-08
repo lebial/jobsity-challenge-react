@@ -1,29 +1,71 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
+import monthOptions from 'Utils/calendarConstants';
 import { Button, Dropdown } from 'Components/Common';
+import { changeCurrentMonth } from '../../state/actions/calendarActions';
 
-// Remove --------
-const options = [
-  { value: '1', innerText: 'Enero' },
-  { value: '2', innerText: 'Febrero' },
-  { value: '3', innerText: 'Marzo' },
-  { value: '4', innerText: 'Abril' },
-  { value: '5', innerText: 'Mayo' },
-];
+function MonthSelector({ defaultOption, selectedYear }) {
+  const dispatch = useDispatch();
+  const [selectedMonth, setSelectedMonth] = useState(defaultOption);
 
-function MonthSelector() {
-  const handleChange = (selected) => console.log(selected); // TO DO
-  const handleClick = () => console.log('test');
+  const handleChange = (selected) => dispatch(changeCurrentMonth({
+    year: selectedYear,
+    monthIndex: selected.value,
+  }));
+
+  const handleClick = (e) => {
+    const { value: monthIndex } = defaultOption;
+    const { name } = e.currentTarget;
+    e.preventDefault();
+    let newMonthIndex;
+    if (name === 'prevMonth') newMonthIndex = +monthIndex - 1;
+    if (name === 'nextMonth') newMonthIndex = +monthIndex + 1;
+    return dispatch(changeCurrentMonth({
+      year: selectedYear,
+      monthIndex: newMonthIndex,
+    }));
+  };
+
+  useEffect(() => {
+    setSelectedMonth(defaultOption);
+  }, [defaultOption]);
+
   const classNames = 'p-2 text-xs md:text-base';
+
   return (
     <section className="flex justify-center items-center w-full mt-3" data-testid="monthSelectorContainer">
       <div className="h-full flex justify-center items-center">
-        <Button onClick={handleClick} text="prev month" classNames={`mr-4 ${classNames}`} />
-        <Dropdown onChange={handleChange} options={options} />
-        <Button onClick={handleClick} text="next month" classNames={`ml-4 ${classNames}`} />
+        <Button
+          onClick={handleClick}
+          text="&#129044;"
+          name="prevMonth"
+          classNames={`mr-4 ${classNames}`}
+        />
+        <Dropdown
+          onChange={handleChange}
+          options={monthOptions}
+          selectedOption={selectedMonth}
+          noDefaultOptionButton
+        />
+        <p className="ml-2">{selectedYear}</p>
+        <Button
+          onClick={handleClick}
+          text="&#129046;"
+          name="nextMonth"
+          classNames={`ml-4 ${classNames}`}
+        />
       </div>
     </section>
   );
 }
 
 export default MonthSelector;
+
+MonthSelector.propTypes = {
+  defaultOption: PropTypes.shape({
+    value: PropTypes.string,
+  }).isRequired,
+  selectedYear: PropTypes.number.isRequired,
+};

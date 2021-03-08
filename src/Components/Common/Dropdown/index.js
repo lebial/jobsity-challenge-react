@@ -2,10 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 
-function Dropdown({ options, onChange, defaultOption }) {
+function Dropdown({
+  options,
+  onChange,
+  selectedOption,
+  defaultOption,
+  noDefaultOptionButton,
+}) {
   const element = useRef();
   const [open, setOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(defaultOption);
 
   const handleOutsideClick = (ev) => {
     if (!element.current.contains(ev.target)) {
@@ -19,7 +24,6 @@ function Dropdown({ options, onChange, defaultOption }) {
     const { name, value } = ev.currentTarget;
     ev.preventDefault();
     const selected = { innerText: name, value };
-    setSelectedOption(selected);
     toggleDropdown();
     onChange(selected);
   };
@@ -65,15 +69,17 @@ function Dropdown({ options, onChange, defaultOption }) {
         animate={{ opacity: 1 }}
         initial={{ opacity: 0 }}
       >
-        <button
-          type="button"
-          className={`${optionClassName} ${defaultOption.value === selectedOption.value && 'bg-gray-300'}`}
-          onClick={handleOptionClick}
-          value={defaultOption.value}
-          name={defaultOption.innerText}
-        >
-          { defaultOption.innerText }
-        </button>
+        {!noDefaultOptionButton && (
+          <button
+            type="button"
+            className={`${optionClassName} ${defaultOption.value === selectedOption.value && 'bg-gray-300'}`}
+            onClick={handleOptionClick}
+            value={defaultOption.value}
+            name={defaultOption.innerText}
+          >
+            { defaultOption.innerText }
+          </button>
+        )}
         { optionList }
       </motion.div>
     );
@@ -103,6 +109,7 @@ Dropdown.defaultProps = {
     innerText: 'Select an option',
     value: '0',
   },
+  noDefaultOptionButton: false,
 };
 
 Dropdown.propTypes = {
@@ -110,9 +117,14 @@ Dropdown.propTypes = {
     innerText: PropTypes.string,
     value: PropTypes.string,
   })).isRequired,
+  selectedOption: PropTypes.shape({
+    innerText: PropTypes.string,
+    value: PropTypes.string,
+  }).isRequired,
   defaultOption: PropTypes.shape({
     innerText: PropTypes.string,
     value: PropTypes.string,
   }),
+  noDefaultOptionButton: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
 };

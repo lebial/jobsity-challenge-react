@@ -6,6 +6,9 @@ function createDateData(date) {
     month: date.toLocaleDateString('en-us', { month: 'long' }),
     monthIndex: date.getMonth(),
     year: date.getFullYear(),
+    isWeekend: function checkWeekend() {
+      return this.dayIndex === 0 || this.dayIndex === 6;
+    },
   });
 }
 
@@ -16,11 +19,14 @@ function processDays(date, dayObject, action = null) {
   // for previous month and next month days
   if (action === 'prev' || action === 'next') {
     for (
-      let i = action === 'prev' ? dayToProcess.dayIndex : 0;
-      action === 'prev' ? i > 0 : i < dayToProcess.dayIndex;
+      let i = dayToProcess.dayIndex;
+      action === 'prev' ? i > 0 : i < 6;
       action === 'prev' ? i -= 1 : i += 1
     ) {
       const dateData = createDateData(date);
+      if (dateData.monthIndex !== dayToProcess.monthIndex) {
+        dateData.notFromCurrentMonth = true;
+      }
       if (action === 'prev') {
         proccesedDays.unshift(dateData);
         date.setDate(date.getDate() - 1);
@@ -54,9 +60,9 @@ function fillRemainingDays(daysInMonth) {
 
 function getDaysInMonth(month, year = null) {
   let currentYear = null;
-  const monthIndex = month - 1;
+  const monthIndex = month;
   if (!year) currentYear = new Date().getFullYear();
-  if (year) currentYear = year.ToString();
+  if (year) currentYear = year.toString();
   const date = new Date(currentYear, monthIndex, 1);
   const daysInMonth = processDays(date, {
     monthIndex: date.getMonth(),
@@ -64,4 +70,7 @@ function getDaysInMonth(month, year = null) {
   return fillRemainingDays(daysInMonth);
 }
 
-export default getDaysInMonth;
+export {
+  getDaysInMonth as default,
+  createDateData,
+};
