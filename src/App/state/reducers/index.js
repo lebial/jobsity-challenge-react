@@ -1,3 +1,7 @@
-// import { combineReducers } from 'redux';
+import { combineReducers } from 'redux';
 
-// const rootReducer = combineReducers();
+import CalendarReducer from 'Apps/Remainders/state/reducers';
+
+const rootReducer = combineReducers({ CalendarReducer });
+
+export default rootReducer;

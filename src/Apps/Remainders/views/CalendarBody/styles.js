@@ -24,7 +24,8 @@ const CalendarContainer = styled.div`
 
   & .cal__body__content {
     width: 100%;
-    height: 95%;
+    height: 100%;
+    max-height: auto;
     background-color: darkgray;
     display: grid;
     grid-gap: 3px;

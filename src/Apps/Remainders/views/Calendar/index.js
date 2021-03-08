@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-import getDaysInMonth from 'Utils/dates';
+import withCalendarData from 'HOC/withCalendarData';
 import CalendarBody from '../CalendarBody';
 
 function Calendar() {
-  const [daysInMonth, setDaysInMonth] = useState([]);
-  useEffect(() => {
-    setDaysInMonth(getDaysInMonth('3'));
-  }, []);
+  const CalendarBodyWithData = withCalendarData(CalendarBody, 'calendar');
   return (
     <section data-testid="calendarContainer" className="flex justify-center w-full h-full mt-8">
-      <CalendarBody daysInMonth={daysInMonth} />
+      <CalendarBodyWithData />
     </section>
   );
 }
