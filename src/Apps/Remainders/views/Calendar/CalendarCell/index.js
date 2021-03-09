@@ -1,15 +1,63 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { toggleModal } from '../../../state/actions/modalActions';
-
-// import { Tag } from 'Components/Common';
+import { Tag } from 'Components/Common';
 import CalendarCellContainer from './styles';
+import { toggleModal } from '../../../state/actions/modalActions';
 
 function CalendarCell({ day }) {
   const dispatch = useDispatch();
-  const openModal = () => dispatch(toggleModal(true));
+  const weatherReducer = useSelector((state) => state.WeatherReducer);
+  const openModal = () => {
+    if (day.notFromCurrentMonth) return null;
+    return dispatch(toggleModal({
+      isOpen: true,
+      data: { reminderData: day },
+      modalType: 'Add',
+    }));
+  };
+
+  const toggleEditModal = (reminderData) => dispatch(toggleModal({
+    isOpen: true,
+    modalType: 'Edit',
+    data: {
+      reminderData,
+      dayData: day,
+    },
+  }));
+
+  const getWeatherData = (reminder) => {
+    const { city, regionCode, countryCode } = reminder.city;
+    const cityNameSelector = `${city} ${regionCode} ${countryCode}`;
+    const weatherMonth = weatherReducer.cities[cityNameSelector];
+    if (!weatherMonth) return null;
+    const { month, year } = day;
+    const [hours] = reminder.time.split(':');
+    debugger;
+    const dayHours = weatherMonth[`${month}-${year}`][day.day];
+    const [weatherData] = dayHours[hours];
+    return weatherData;
+  };
+
+  const renderTags = () => day.reminders.map((reminder) => {
+    const weatherData = getWeatherData(reminder);
+    console.log(weatherData);
+    return (
+      <Tag
+        onClick={(e) => {
+          e.stopPropagation();
+          toggleEditModal(reminder);
+        }}
+        customColor={reminder.color}
+      >
+        <span>{reminder.reminder}</span>
+        {' '}
+        <span>{reminder.time}</span>
+      </Tag>
+    );
+  });
+
   return (
     <CalendarCellContainer
       isWeekend={day.isWeekend()}
@@ -22,8 +70,7 @@ function CalendarCell({ day }) {
         <span className="cell__header__weather-icon" />
       </div>
       <div className="tags__container overflow-y-scroll scrollbar-thin scrollbar-thumb-indigo-700 scrollbar-track-gray-200">
-        {/* <Tag>work late</Tag>
-        <Tag>work late</Tag> */}
+        {renderTags()}
       </div>
     </CalendarCellContainer>
   );
@@ -34,8 +81,11 @@ export default CalendarCell;
 CalendarCell.propTypes = {
   day: PropTypes.shape({
     day: PropTypes.number,
+    month: PropTypes.string,
+    year: PropTypes.number,
     weekDay: PropTypes.string,
     isWeekend: PropTypes.func,
     notFromCurrentMonth: PropTypes.bool,
+    reminders: PropTypes.shape([]),
   }).isRequired,
 };

@@ -4,11 +4,16 @@ import {
   NOT_STARTED,
 } from 'Utils/defaultReducerStatus';
 
-import { CHANGE_CURRENT_MONTH, GET_INITIAL_DATA } from '../actions/calendarActions';
+import {
+  CHANGE_CURRENT_MONTH,
+  GET_INITIAL_DATA,
+  ADD_REMINDER,
+  DELETE_REMINDER,
+} from '../actions/calendarActions';
 
 function getNewMonth(state, newDate) {
   // If the month that we try to access already exists, will not recreate it
-  const existingMonth = (state.visitedMonths || {})[`${newDate.month}-${newDate.year}`];
+  const existingMonth = state.visitedMonths[`${newDate.month}-${newDate.year}`];
   if (existingMonth) return { selectedMonth: existingMonth };
   // otherwise will track a new month
   const { month, monthIndex, year } = createDateData(new Date(newDate.year, newDate.monthIndex));
@@ -18,6 +23,8 @@ function getNewMonth(state, newDate) {
     monthIndex,
     year,
     daysInMonth,
+    selector: `${month}-${year}`,
+    reminders: {},
   };
   return {
     selectedMonth,
@@ -25,6 +32,44 @@ function getNewMonth(state, newDate) {
       ...state.visitedMonths,
       [`${month}-${year}`]: {
         ...selectedMonth,
+      },
+    },
+  };
+}
+
+function removeSingleReminder(state, reminderData) {
+  const {
+    day,
+    time,
+    month,
+    year,
+    monthIndex,
+  } = reminderData;
+  if (state.selectedMonth.monthIndex === monthIndex) {
+    const { [time]: removed, ...restReminders } = state.selectedMonth.reminders[`${day}`];
+    return {
+      ...state,
+      selectedMonth: {
+        ...state.selectedMonth,
+        reminders: {
+          ...state.selectedMonth.reminders,
+          [day]: restReminders,
+        },
+      },
+    };
+  }
+  const selector = `${month}-${year}`;
+  const { [time]: gone, ...restReminders } = state.visitedMonths[selector].reminders[`${day}`];
+  return {
+    ...state,
+    visitedMonths: {
+      ...state.visitedMonths,
+      [selector]: {
+        ...state.visitedMonths[selector],
+        reminders: {
+          ...state.visitedMonths[selector].reminders,
+          [day]: restReminders,
+        },
       },
     },
   };
@@ -50,6 +95,35 @@ export default (state = INITIAL_STATE, action) => {
         ...getNewMonth(state, action.payload),
         status: SUCCESS,
       };
+    case ADD_REMINDER:
+      return {
+        ...state,
+        selectedMonth: {
+          ...state.selectedMonth,
+          reminders: {
+            ...state.selectedMonth.reminders,
+            [action.payload.day]: {
+              ...state.selectedMonth.reminders[action.payload.day],
+              [action.payload.time]: action.payload,
+            },
+          },
+        },
+        visitedMonths: {
+          ...state.visitedMonths,
+          [state.selectedMonth.selector]: {
+            ...state.selectedMonth,
+            reminders: {
+              ...state.selectedMonth.reminders,
+              [action.payload.day]: {
+                ...state.selectedMonth.reminders[action.payload.day],
+                [action.payload.time]: action.payload,
+              },
+            },
+          },
+        },
+      };
+    case DELETE_REMINDER:
+      return removeSingleReminder(state, action.payload);
     default:
       return state;
   }

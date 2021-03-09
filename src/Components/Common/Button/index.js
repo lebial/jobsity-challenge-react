@@ -11,6 +11,8 @@ function Button(props) {
     text,
     classNames,
     name,
+    customColor,
+    ...rest
   } = props;
   return (
     <StyledButton
@@ -19,6 +21,8 @@ function Button(props) {
       onClick={onClick}
       className={classNames}
       name={name}
+      customColor={customColor}
+      {...rest}
     >
       { text }
     </StyledButton>
@@ -33,6 +37,7 @@ Button.defaultProps = {
   text: '',
   classNames: '',
   name: '',
+  customColor: null,
 };
 
 Button.propTypes = {
@@ -42,4 +47,5 @@ Button.propTypes = {
   text: PropTypes.string,
   name: PropTypes.string,
   classNames: PropTypes.string,
+  customColor: PropTypes.string,
 };

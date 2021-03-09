@@ -17,6 +17,9 @@ const StyledButton = styled.button`
   ${({ secondary, danger }) => css`
     background-color: ${getColorOnProps({ secondary, danger })};
   `}
+  ${({ customColor }) => customColor && css`
+    background-color: ${customColor};
+  `}
   border-radius: 7px;
   color: white;
   outline: none;
@@ -28,6 +31,10 @@ const StyledButton = styled.button`
   }
   &:active {
     transform: translateY(-1px);
+  }
+  &:disabled {
+    cursor: 'not-allowed';
+    background-color: lightgray;
   }
 `;
 

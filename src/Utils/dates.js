@@ -1,3 +1,33 @@
+import monthOptions from 'Utils/calendarConstants';
+
+function getMonthName(monthIndex) {
+  if (monthIndex === -1) return 'December';
+  if (monthIndex === 12) return 'January';
+  return monthOptions.find((m) => m.value === monthIndex.toString()).innerText;
+}
+
+function calculateDateToDisplay(data) {
+  // for handling change between years
+  if (data.monthIndex === -1) {
+    return {
+      year: data.year - 1,
+      monthIndex: 11,
+      month: getMonthName(data.monthIndex),
+    };
+  }
+  if (data.monthIndex === 12) {
+    return {
+      year: data.year + 1,
+      monthIndex: 0,
+      month: getMonthName(data.monthIndex),
+    };
+  }
+  return {
+    ...data,
+    month: getMonthName(data.monthIndex),
+  };
+}
+
 function createDateData(date) {
   return ({
     weekDay: date.toLocaleDateString('en-us', { weekday: 'long' }),
@@ -70,7 +100,28 @@ function getDaysInMonth(month, year = null) {
   return fillRemainingDays(daysInMonth);
 }
 
+function reminderIsInWeatherRange(reminder, currentDate) {
+  const {
+    day: reminderDay,
+    monthIndex: reminderMonthIndex,
+    year: reminderYear,
+  } = reminder;
+  const {
+    day: currentDay,
+    monthIndex: currentMonthIndex,
+    year: currentYear,
+  } = currentDate;
+  if (
+    reminderDay === currentDay
+    && reminderMonthIndex === currentMonthIndex
+    && reminderYear === currentYear
+  ) return true;
+  return false;
+}
+
 export {
   getDaysInMonth as default,
   createDateData,
+  calculateDateToDisplay,
+  reminderIsInWeatherRange,
 };
