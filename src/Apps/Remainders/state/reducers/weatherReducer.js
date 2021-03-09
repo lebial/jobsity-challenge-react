@@ -29,7 +29,7 @@ function processWeatherData(weatherData) {
     acc[monthSelector] = {
       ...acc[monthSelector],
       [day]: {
-        ..._.get(acc, `acc[${monthSelector}][${day}]`, {}),
+        ..._.get(acc, `${monthSelector}.${day}`, {}),
         [hour]: value.weather,
       },
     };

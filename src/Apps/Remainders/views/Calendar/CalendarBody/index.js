@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 
+import { useSelector } from 'react-redux';
 import CalendarBodyContainer from './styles';
 import CalendarCell from '../CalendarCell';
 
 function CalendarBody({ daysInMonth, currentMonthIndex, reminders }) {
+  const weatherReducer = useSelector((state) => state.WeatherReducer);
+  const [weatherData, setWeatherData] = useState(null);
+
+  const getWeatherData = (reminder, day) => {
+    const { city, regionCode, countryCode } = reminder.city;
+    const cityNameSelector = `${city} ${regionCode} ${countryCode}`;
+    const weatherMonth = weatherReducer.cities[cityNameSelector];
+    if (!weatherMonth) return null;
+    const { month, year } = day;
+    const [hours] = reminder.time.split(':');
+    const dayHours = weatherMonth[`${month}-${year}`][day.day];
+    const [weather] = _.get(dayHours, `${hours}`, []);
+    return weather;
+  };
+
   const renderCells = () => daysInMonth.map((day) => {
     if (day.notFromCurrentMonth) {
       return (
@@ -21,6 +38,10 @@ function CalendarBody({ daysInMonth, currentMonthIndex, reminders }) {
       dayReminders = Object.values(dayReminders).sort((a, b) => (
         a.time.localeCompare(b.time)
       ));
+      dayReminders = dayReminders.map((reminder) => ({
+        ...reminder,
+        weather: getWeatherData(reminder, day),
+      }));
     } else {
       dayReminders = [];
     }
@@ -30,9 +51,14 @@ function CalendarBody({ daysInMonth, currentMonthIndex, reminders }) {
         key={day.day + day.month}
         day={dayWithReminders}
         currentMonthIndex={currentMonthIndex}
+        weather={weatherData}
       />
     );
   });
+
+  useEffect(() => {
+    setWeatherData(weatherReducer);
+  }, [weatherReducer]);
 
   return (
     <CalendarBodyContainer className=" lg:overflow-y-scroll lg:scrollbar-thin scrollbar-thumb-indigo-700 scrollbar-track-gray-200">

@@ -100,22 +100,27 @@ function getDaysInMonth(month, year = null) {
   return fillRemainingDays(daysInMonth);
 }
 
-function reminderIsInWeatherRange(reminder, currentDate) {
-  const {
-    day: reminderDay,
-    monthIndex: reminderMonthIndex,
-    year: reminderYear,
-  } = reminder;
-  const {
-    day: currentDay,
-    monthIndex: currentMonthIndex,
-    year: currentYear,
-  } = currentDate;
+function validateSameDay(reminder, currentDate) {
   if (
-    reminderDay === currentDay
-    && reminderMonthIndex === currentMonthIndex
-    && reminderYear === currentYear
+    reminder.day === currentDate.day
+    && reminder.monthIndex === currentDate.monthIndex
+    && reminder.year === currentDate.year
   ) return true;
+  return false;
+}
+
+function validateNextTwoDays(reminder, currentDate) {
+  if (
+    (+reminder.day === +currentDate.day + 1 || +reminder.day === +currentDate.day + 2)
+    && reminder.monthIndex === currentDate.monthIndex
+    && reminder.year === currentDate.year
+  ) return true;
+  return false;
+}
+
+function reminderIsInWeatherRange(reminder, currentDate) {
+  if (validateSameDay(reminder, currentDate)) return true;
+  if (validateNextTwoDays(reminder, currentDate)) return true;
   return false;
 }
 

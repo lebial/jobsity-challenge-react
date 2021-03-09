@@ -21,6 +21,8 @@ Modal.setAppElement('#root');
 
 function RemindersModal() {
   const modalReducer = useSelector((state) => state.ModalReducer);
+  const calendarReducer = useSelector((state) => state.CalendarReducer);
+  const { selectedMonth } = calendarReducer;
   const { modalData, currentDateData } = modalReducer;
   const { reminderData } = modalData;
   const dispatch = useDispatch();
@@ -74,9 +76,9 @@ function RemindersModal() {
     if (reminderIsInWeatherRange({
       day: inputsData.day,
       time: inputsData.time,
-      month: reminderData.month,
-      year: reminderData.year,
-      monthIndex: reminderData.monthIndex,
+      month: selectedMonth.month,
+      year: selectedMonth.year,
+      monthIndex: selectedMonth.monthIndex,
     }, currentDateData)) {
       const { latitude: lat, longitude: lon } = inputsData.city;
       const cityName = `${inputsData.city.city} ${inputsData.city.regionCode} ${inputsData.city.countryCode}`;

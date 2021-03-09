@@ -9,6 +9,7 @@ import {
   GET_INITIAL_DATA,
   ADD_REMINDER,
   DELETE_REMINDER,
+  DELETE_DAY_REMINDERS,
 } from '../actions/calendarActions';
 
 function getNewMonth(state, newDate) {
@@ -58,6 +59,7 @@ function removeSingleReminder(state, reminderData) {
       },
     };
   }
+
   const selector = `${month}-${year}`;
   const { [time]: gone, ...restReminders } = state.visitedMonths[selector].reminders[`${day}`];
   return {
@@ -69,6 +71,41 @@ function removeSingleReminder(state, reminderData) {
         reminders: {
           ...state.visitedMonths[selector].reminders,
           [day]: restReminders,
+        },
+      },
+    },
+  };
+}
+
+function removeAllreminders(state, dayToRemove) {
+  const {
+    day,
+    month,
+    year,
+    monthIndex,
+  } = dayToRemove;
+  if (state.selectedMonth.monthIndex === monthIndex) {
+    return {
+      ...state,
+      selectedMonth: {
+        ...state.selectedMonth,
+        reminders: {
+          ...state.selectedMonth.reminders,
+          [day]: {},
+        },
+      },
+    };
+  }
+  const monthSelector = `${month}-${year}`;
+  return {
+    ...state,
+    visitedMonths: {
+      ...state.visitedMonths,
+      [monthSelector]: {
+        ...state.visitedMonths[monthSelector],
+        reminders: {
+          ...state.visitedMonths[monthSelector].reminders,
+          [day]: {},
         },
       },
     },
@@ -124,6 +161,8 @@ export default (state = INITIAL_STATE, action) => {
       };
     case DELETE_REMINDER:
       return removeSingleReminder(state, action.payload);
+    case DELETE_DAY_REMINDERS:
+      return removeAllreminders(state, action.payload);
     default:
       return state;
   }
