@@ -5,7 +5,6 @@ import { boxShadow, navColor, screens } from 'Utils/globalStyles';
 const CalendarCellContainer = styled.div`
   width: 100%;
   height: 100%;
-  max-height: 110px;
   min-height: 110px;
   background-color: ${(props) => props.isWeekend ? 'lightgray' : 'white'};
   font-weight: ${(props) => props.notFromCurrentMonth ? 'normal' : 'bold'};
@@ -26,6 +25,7 @@ const CalendarCellContainer = styled.div`
   }
   & .tags__container {
     width: 100%;
+    max-height: 15vh;
     display: flex;
     flex-direction: column;
     align-items: center;

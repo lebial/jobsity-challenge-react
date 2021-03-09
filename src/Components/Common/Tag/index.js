@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Tag({ children }) {
+function Tag({ children, customColor, ...rest }) {
   return (
-    <button type="button" className="tag rounded-full py-1 px-3 bg-indigo-400 focus:outline-none text-xs">
+    <button
+      type="button"
+      style={{ backgroundColor: customColor }}
+      className="tag w-4/5 mx-3 rounded-full py-1 px-2 focus:outline-none text-xs text-white"
+      {...rest}
+    >
       {children}
     </button>
   );
@@ -17,4 +22,5 @@ Tag.defaultProps = {
 
 Tag.propTypes = {
   children: PropTypes.element,
+  customColor: PropTypes.string.isRequired,
 };

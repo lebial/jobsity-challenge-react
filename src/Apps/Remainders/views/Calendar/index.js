@@ -1,7 +1,7 @@
 import React from 'react';
 
 import withCalendarData from 'HOC/withCalendarData';
-import CalendarBody from '../CalendarBody';
+import CalendarBody from './CalendarBody';
 
 function Calendar() {
   const CalendarBodyWithData = withCalendarData(CalendarBody, 'calendar');

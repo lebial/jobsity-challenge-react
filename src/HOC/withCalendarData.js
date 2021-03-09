@@ -6,8 +6,15 @@ import { compose } from 'redux';
 function withCalendarData(Component, option) {
   const InnerFunction = ({ calendarData, ...rest }) => {
     if (option === 'calendar') {
-      const { daysInMonth, monthIndex } = calendarData.selectedMonth;
-      return (<Component daysInMonth={daysInMonth} currentMonthIndex={monthIndex} {...rest} />);
+      const { daysInMonth, monthIndex, reminders } = calendarData.selectedMonth;
+      return (
+        <Component
+          reminders={reminders}
+          daysInMonth={daysInMonth}
+          currentMonthIndex={monthIndex}
+          {...rest}
+        />
+      );
     }
 
     if (option === 'selector') {
@@ -26,6 +33,7 @@ function withCalendarData(Component, option) {
         monthIndex: PropTypes.number,
         month: PropTypes.string,
         year: PropTypes.number,
+        reminders: PropTypes.shape({}),
       }),
     }).isRequired,
   };
