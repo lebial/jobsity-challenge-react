@@ -88,6 +88,7 @@ function RemindersModal() {
     dispatch(addReminder({
       ...inputsData,
     }));
+    setShowColorPicker(false);
     dispatch(resetModal());
   };
 
