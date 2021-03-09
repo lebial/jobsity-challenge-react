@@ -39,6 +39,7 @@ function getNewMonth(state, newDate) {
 }
 
 function removeSingleReminder(state, reminderData) {
+  debugger;
   const {
     day,
     time,
@@ -46,6 +47,7 @@ function removeSingleReminder(state, reminderData) {
     year,
     monthIndex,
   } = reminderData;
+  const selector = `${month}-${year}`;
   if (state.selectedMonth.monthIndex === monthIndex) {
     const { [time]: removed, ...restReminders } = state.selectedMonth.reminders[`${day}`];
     return {
@@ -57,10 +59,18 @@ function removeSingleReminder(state, reminderData) {
           [day]: restReminders,
         },
       },
+      visitedMonths: {
+        ...state.visitedMonths,
+        [selector]: {
+          ...state.visitedMonths[selector],
+          reminders: {
+            ...state.visitedMonths[selector].reminders,
+            [day]: restReminders,
+          },
+        },
+      },
     };
   }
-
-  const selector = `${month}-${year}`;
   const { [time]: gone, ...restReminders } = state.visitedMonths[selector].reminders[`${day}`];
   return {
     ...state,
@@ -82,23 +92,17 @@ function removeAllreminders(state, dayToRemove) {
     day,
     month,
     year,
-    monthIndex,
   } = dayToRemove;
-  if (state.selectedMonth.monthIndex === monthIndex) {
-    return {
-      ...state,
-      selectedMonth: {
-        ...state.selectedMonth,
-        reminders: {
-          ...state.selectedMonth.reminders,
-          [day]: {},
-        },
-      },
-    };
-  }
   const monthSelector = `${month}-${year}`;
   return {
     ...state,
+    selectedMonth: {
+      ...state.selectedMonth,
+      reminders: {
+        ...state.selectedMonth.reminders,
+        [day]: {},
+      },
+    },
     visitedMonths: {
       ...state.visitedMonths,
       [monthSelector]: {

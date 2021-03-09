@@ -25,6 +25,7 @@ const CalendarCellContainer = styled.div`
   }
   & .tags__container {
     width: 100%;
+    max-height: 15vh;
     display: flex;
     flex-direction: column;
     align-items: center;
