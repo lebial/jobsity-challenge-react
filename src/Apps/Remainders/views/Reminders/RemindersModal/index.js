@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import AsyncSelect from 'react-select/async';
+import Select from 'react-select';
 import { BlockPicker } from 'react-color';
 import TimePicker from 'react-time-picker';
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,8 +17,6 @@ import { resetModal } from '../../../state/actions/modalActions';
 import { addReminder, deleteReminder } from '../../../state/actions/calendarActions';
 import { getWeatherData } from '../../../state/actions/weatherActions';
 import getCityByName from './api/cities';
-
-Modal.setAppElement('#root');
 
 function RemindersModal() {
   const modalReducer = useSelector((state) => state.ModalReducer);
@@ -39,6 +38,10 @@ function RemindersModal() {
 
   const validateValues = () => isSomeValueEmpty(Object.values({ ...inputsData }));
 
+  const getDayOptions = () => selectedMonth.daysInMonth.filter(
+    (d) => d.monthIndex === selectedMonth.monthIndex,
+  );
+
   const handleInputChangeByName = (e, name = null) => {
     setInputsData({
       ...inputsData,
@@ -49,6 +52,10 @@ function RemindersModal() {
   const handleCityChange = (value) => setInputsData({
     ...inputsData,
     city: value,
+  });
+  const handleDayChange = (value) => setInputsData({
+    ...inputsData,
+    day: value.day,
   });
 
   const handleTimeChange = (time) => setInputsData({
@@ -125,6 +132,7 @@ function RemindersModal() {
     <Modal
       isOpen={modalReducer.isOpen}
       onRequestClose={closeModal}
+      appElement={document.getElementById('root')}
       style={{
         overlay: {
           backgroundColor: 'rgba(0,0,0,0.7)',
@@ -155,13 +163,16 @@ function RemindersModal() {
           </h2>
         </div>
         <div className="flex flex-col md:flex-row md:justify-evenly px-8 md:px-0 my-5">
-          <div>
-            <Input
-              onChange={handleInputChangeByName}
-              placeholder="Day"
-              labelText="Day"
+          <div className="mb-3 w-full md:w-1/5">
+            <p className="ml-1">Day</p>
+            <Select
+              onChange={handleDayChange}
               name="day"
-              value={inputsData.day}
+              data-testid="dayPicker"
+              options={getDayOptions()}
+              placeholder={inputsData.day}
+              getOptionValue={(e) => e.day}
+              getOptionLabel={(e) => e.day}
             />
           </div>
           <div>
@@ -173,6 +184,7 @@ function RemindersModal() {
             <p className="ml-1">City</p>
             <AsyncSelect
               DefaultOptions
+              data-testid="cityPicker"
               getOptionLabel={(e) => `${e.city} ${e.regionCode} ${e.countryCode}`}
               getOptionValue={(e) => e.id}
               cacheOptions
@@ -199,9 +211,10 @@ function RemindersModal() {
           <div className="mb-3">
             <Input
               onChange={handleInputChangeByName}
-              placeholder="Reminder"
+              placeholder="Max 30 chars"
               labelText="Reminder"
               name="reminder"
+              data-testid="reminderInput"
               maxLength="30"
               value={inputsData.reminder}
             />

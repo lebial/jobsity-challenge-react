@@ -6,6 +6,7 @@ function Tag({ children, customColor, ...rest }) {
     <button
       type="button"
       style={{ backgroundColor: customColor }}
+      data-testid="reminderTag"
       className="tag w-4/5 mx-3 rounded-full py-1 px-2 focus:outline-none text-xs text-white"
       {...rest}
     >

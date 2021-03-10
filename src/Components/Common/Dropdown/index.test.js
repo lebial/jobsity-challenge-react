@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import userEvent from '@testing-library/user-event';
 import {
   render,
@@ -9,7 +9,6 @@ import {
 
 import Dropdown from '.';
 
-const onChange = jest.fn();
 const options = [
   { innerText: 'test', value: '1' },
   { innerText: 'test2', value: '2' },
@@ -17,14 +16,21 @@ const options = [
 ];
 const defaultOption = { innerText: 'default', value: '0' };
 
-beforeEach(() => {
-  render(
+const Wrapper = () => {
+  const [selectedValue, setSelectedValue] = useState({});
+  return (
     <Dropdown
       options={options}
       defaultOption={defaultOption}
-      onChange={onChange}
-    />,
+      onChange={setSelectedValue}
+      selectedOption={selectedValue}
+      noDefaultOptionButton
+    />
   );
+};
+
+beforeEach(() => {
+  render(<Wrapper />);
 });
 
 afterEach(cleanup);
@@ -33,7 +39,7 @@ describe('Button', () => {
   it('should render correctly', () => {
     const button = screen.getByTestId('dropdownButton');
     expect(button).toBeInTheDocument();
-    expect(screen.getByTestId('dropdownValue')).toHaveTextContent('default');
+    expect(screen.getByTestId('dropdownValue')).toHaveTextContent('');
   });
 
   it('should change value when clicked', async () => {
@@ -43,6 +49,5 @@ describe('Button', () => {
     const option = screen.getByRole('button', { name: /test2/i });
     userEvent.click(option);
     expect(screen.getByTestId('dropdownValue')).toHaveTextContent('test2');
-    expect(onChange).toBeCalled();
   });
 });

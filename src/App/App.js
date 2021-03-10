@@ -1,10 +1,7 @@
 import React from 'react';
-import Modal from 'react-modal';
 
 import NavigationBar from 'Components/Common';
 import Reminders from 'Apps/Remainders';
-
-Modal.setAppElement('#root');
 
 function App() {
   return (
