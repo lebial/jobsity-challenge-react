@@ -1,70 +1,51 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Jobsity Reminders Challenge - React
+![Component 2challengeIcon](https://user-images.githubusercontent.com/16924834/110569715-79f27e00-811a-11eb-82c7-1e4390de57b6.png)
+# By Oswaldo Rangel
 
-## Available Scripts
+## To run the app
 
-In the project directory, you can run:
+# Note
 
-### `yarn start`
+In order to run the app you will need to provide an `apikey` for open weather api through an `.env` file
+please refer to `.example.env` provided in the repo for details.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Clone the repo `cd projectName`
+- execute `npm install` or `yarn`
+- execute `npm start` or  `yarn start`
+- To run tests `npm run test` or `yarn test`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Characteristics
+![image](https://user-images.githubusercontent.com/16924834/110570717-ff2a6280-811b-11eb-93dd-4964c72bae3c.png)
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# This App will handle the next points
 
-### `yarn build`
+- The app is responsive
+- Has cross browser compatibility (Check the section below)
+- Create reminders by clicking on a current month day calendar cell.
+- Created reminders will display a weather icon depending on city and hour, this is only supported for current day and the next 2 days
+- Edit a reminder by clicking on the reminder tag.
+- Change to previous and next month
+- Add reminders to any month
+- Delete a single reminder by clicking on the x button in the reminder tag.
+- Delete all reminders for a given day by clicking the trash button on the calendar cell.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Browser Compatibility
+# Tested Browsers
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Chrome latest
+- Opera latest
+- Fire Fox latest
+- Brave Latest
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Tech Data
 
-### `yarn eject`
+# Stack
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- React throug `create-react-app`
+- Redux for state management
+- For Styling `styled-components` and `tailwindCSS`
+- Testing - `jest` and `react-testing-library`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## You came to the bottom, Thanks for coming by! :D

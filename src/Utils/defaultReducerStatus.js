@@ -1,0 +1,11 @@
+const ERROR = 'ERROR';
+const LOADING = 'LOADING';
+const SUCCESS = 'SUCCESS';
+const NOT_STARTED = 'NOT_STARTED';
+
+export {
+  ERROR,
+  LOADING,
+  SUCCESS,
+  NOT_STARTED,
+};
