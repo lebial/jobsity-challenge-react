@@ -36,30 +36,6 @@ jest.mock('react-time-picker', () => {
   return TimePicker.default;
 });
 
-// jest.mock('./api/cities', () => ({
-//   getCityByName: () => ([{
-//     city: 'Guadalajara',
-//     country: 'Mexico',
-//     countryCode: 'MX',
-//     id: 78657,
-//     latitude: 20.676666666,
-//     longitude: -103.3475,
-//     name: 'Guadalajara',
-//     region: 'Jalisco',
-//     regionCode: 'JAL',
-//     type: 'CITY',
-//     wikiDataId: 'Q9022',
-//   }]),
-// }));
-
-// const initialState = {
-//   ModalReducer: {
-//     isOpen: false,
-//     modalType: '',
-//     modalData: {},
-//   },
-// };
-
 // eslint-disable-next-line
 function RemindersWrapper({store}) {
   return (
@@ -81,7 +57,6 @@ afterEach(cleanup);
 describe('Reminder App', () => {
   it('should be able to add a reminder', async () => {
     setup();
-    const calHeader = screen.getByText('2021');
     const calendarCells = screen.getAllByTestId('calendarCell');
     userEvent.click(calendarCells[0]);
 
