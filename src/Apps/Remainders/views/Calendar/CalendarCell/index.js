@@ -94,6 +94,7 @@ function CalendarCell({ day }) {
     <CalendarCellContainer
       isWeekend={day.isWeekend()}
       notFromCurrentMonth={day.notFromCurrentMonth}
+      data-testid={day.notFromCurrentMonth ? '' : 'calendarCell'}
       onClick={openModal}
     >
       <div className="cell__header">
